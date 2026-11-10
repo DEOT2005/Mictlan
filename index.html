@@ -1,15 +1,15 @@
-<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mapa 3D de los 9 Niveles del Mictlán - Gráfica Computacional</title>
-    <!-- Incluir A-Frame para gráficos 3D en el navegador -->
+    <!-- Incluir A-Frame -->
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
     <style>
         :root {
-            --bg-color: #050508;
-            --panel-bg: rgba(15, 23, 42, 0.9);
+            --bg-color: #030305;
+            --panel-bg: rgba(15, 23, 42, 0.95);
             --accent: #d97706;
             --text-main: #f8fafc;
             --text-sub: #94a3b8;
@@ -22,29 +22,29 @@
             color: var(--text-main);
             overflow: hidden;
         }
-        /* Panel de Información Lateral para la Laptop */
+        /* Panel de Información Lateral */
         .info-panel {
             position: absolute;
             top: 20px;
             left: 20px;
-            width: 320px;
+            width: 350px;
             max-height: 90vh;
             background: var(--panel-bg);
             border: 2px solid var(--accent);
             border-radius: 12px;
-            padding: 20px;
+            padding: 25px;
             box-sizing: border-box;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.9);
             z-index: 10;
             overflow-y: auto;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(8px);
         }
-        h1 { font-size: 1.4em; color: var(--accent); margin-top: 0; border-bottom: 2px solid #334155; padding-bottom: 10px; }
-        h2 { font-size: 1.1em; color: #fbbf24; margin-bottom: 5px; }
-        p { font-size: 0.9em; color: var(--text-sub); line-height: 1.5; }
+        h1 { font-size: 1.3em; color: var(--accent); margin-top: 0; border-bottom: 2px solid #334155; padding-bottom: 10px; }
+        h2 { font-size: 1.1em; color: #fbbf24; margin-bottom: 8px; }
+        p { font-size: 0.92em; color: var(--text-sub); line-height: 1.6; }
         .instructions {
-            margin-top: 15px;
-            padding-top: 10px;
+            margin-top: 20px;
+            padding-top: 12px;
             border-top: 1px dashed #475569;
             font-size: 0.85em;
             color: #cbd5e1;
@@ -53,11 +53,16 @@
             display: inline-block;
             background: #78350f;
             color: #fde68a;
-            padding: 3px 8px;
+            padding: 4px 10px;
             border-radius: 4px;
             font-size: 0.75em;
             font-weight: bold;
             margin-bottom: 10px;
+            letter-spacing: 0.5px;
+        }
+        .hint {
+            color: #f59e0b;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -65,107 +70,119 @@
 
     <!-- Panel Informativo Interactivo -->
     <div class="info-panel">
-        <span class="badge">Gráfica Computacional • 2° Parcial</span>
+        <span class="badge">GRÁFICA COMPUTACIONAL • 2° PARCIAL</span>
         <h1>El Mictlán (Inframundo)</h1>
-        <p>Modelo tridimensional interactivo de los 9 niveles que las almas debían atravesar en la mitología mexica.</p>
+        <p>Modelo tridimensional de la mitología mexica. <span class="hint">Haz clic en cualquier nivel del templo en 3D para ver su historia detallada.</span></p>
         
         <div id="level-description">
-            <h2>Instrucciones</h2>
-            <p>Utiliza el mouse en la pantalla 3D para rotar la vista (mantén presionado y arrastra) y hacer zoom con la rueda. Haz clic en cualquier nivel de la estructura para ver su descripción mitológica detallada.</p>
+            <h2>📜 Selecciona un Nivel</h2>
+            <p>El inframundo consta de 9 regiones que las almas debían atravesar durante cuatro años. Explora la estructura haciendo clic en las plataformas.</p>
         </div>
 
         <div class="instructions">
-            <strong>Controles de Laptop:</strong><br>
-            • 🖱️ Arrastrar mouse: Rotar cámara<br>
-            • 📜 Rueda del mouse: Zoom<br>
-            • ⌨️ Flechas del teclado: Desplazarse
+            <strong>🎮 Controles en Laptop:</strong><br>
+            • 🖱️ <strong>Click + Arrastrar:</strong> Rotar cámara<br>
+            • 📜 <strong>Rueda del mouse:</strong> Zoom cera/lejos<br>
+            • 🖱️ <strong>Click sobre el templo:</strong> Ver descripción
         </div>
     </div>
 
-    <!-- Escena 3D de A-Frame optimizada para Laptop -->
-    <a-scene background="color: #050508">
+    <!-- Escena 3D -->
+    <a-scene background="color: #030305">
 
-        <!-- Cámara Orbital para Laptop -->
-        <a-entity id="cameraRig" position="0 2 8">
-            <a-camera look-controls="pointerLockEnabled: false" wasd-controls="acceleration: 20"></a-camera>
+        <!-- Cámara Orbital -->
+        <a-entity position="0 3 10">
+            <a-camera look-controls="pointerLockEnabled: false" wasd-controls="acceleration: 15"></a-camera>
         </a-entity>
 
-        <!-- Luces de la escena -->
-        <a-light type="ambient" color="#222"></a-light>
-        <a-light type="directional" position="2 4 2" intensity="1.2" color="#fbbf24"></a-light>
-        <a-light type="point" position="0 -2 0" intensity="0.5" color="#d97706"></a-light>
+        <!-- Iluminación Teatral y Dramática -->
+        <a-light type="ambient" color="#1e1b4b" intensity="0.8"></a-light>
+        <a-light type="directional" position="5 8 5" intensity="1.5" color="#fbbf24"></a-light>
+        <a-light type="point" position="0 1 0" intensity="1.2" color="#d97706"></a-light>
 
-        <!-- Estructura Jerárquica 3D del Mictlán (9 Niveles Escalonados) -->
-        <a-entity id="mictlan-structure" position="0 -2 0" rotation="0 0 0" animation="property: rotation; to: 0 360 0; loop: true; dur: 60000; easing: linear">
+        <!-- Estructura Jerárquica del Templo del Mictlán (Diseño Mejorado en Pirámide Escalonada) -->
+        <a-entity id="mictlan-structure" position="0 -1.5 0" rotation="0 0 0" animation="property: rotation; to: 0 360 0; loop: true; dur: 80000; easing: linear">
 
-            <!-- Base / Suelo -->
-            <a-cylinder position="0 0 0" radius="3" height="0.2" color="#111827" roughness="0.8"></a-cylinder>
+            <!-- Base Monumental -->
+            <a-cylinder position="0 -0.2 0" radius="4" height="0.4" color="#0f172a" roughness="0.9"></a-cylinder>
 
             <!-- Nivel 1: Apanoayan -->
-            <a-box class="clickable" position="0 0.5 0" width="4.5" height="0.6" depth="4.5" color="#1e3a8a" roughness="0.5"
-                   onclick="updateInfo('Nivel 1: Apanoayan (Lugar de los Perros)', 'El río Apanohuayan era el primer nivel. Las almas debían cruzarlo con la ayuda de un perro xoloitzcuintle. Si en vida habías maltratado a los animales, el perro se negaba a ayudarte y quedabas varado.')">
-                <a-text value="1. Apanoayan" position="-1 0.4 -2" color="white" scale="0.8 0.8 0.8"></a-text>
-            </a-box>
+            <a-entity position="0 0.4 0" 
+                      onclick="updateInfo('Nivel 1: Apanoayan (Lugar de los Perros)', 'El río Apanohuayan era el primer obstáculo. Las almas debían cruzarlo con ayuda de un perro xoloitzcuintle. Si en vida habías maltratado a los animales, el perro se negaba a ayudarte y quedabas varado en la orilla para siempre.')">
+                <a-box width="5.2" height="0.5" depth="5.2" color="#1e3a8a" roughness="0.4"></a-box>
+                <a-text value="1. Apanoayan (Rio)" position="-2.6 0.4 2.8" rotation="0 0 0" color="#93c5fd" scale="0.9 0.9 0.9"></a-text>
+            </a-entity>
 
             <!-- Nivel 2: Tepeme Monamictia -->
-            <a-box class="clickable" position="0 1.2 0" width="4" height="0.6" depth="4" color="#7f1d1d" roughness="0.5"
-                   onclick="updateInfo('Nivel 2: Tepeme Monamictia (Cerros que Chocan)', 'Dos sierras gigantescas que chocaban entre sí constantemente de forma estrepitosa. Las almas debían esperar el momento exacto y correr con agilidad para no ser aplastadas.')">
-                <a-text value="2. Cerros Chocantes" position="-1.2 0.4 -1.8" color="white" scale="0.8 0.8 0.8"></a-text>
-            </a-box>
+            <a-entity position="0 1.0 0" 
+                      onclick="updateInfo('Nivel 2: Tepeme Monamictia (Los Cerros que Chocan)', 'Dos sierras gigantescas que chocaban entre sí de forma estrepitosa y constante. Las almas debían esperar el preciso instante en que se separaban para cruzar corriendo sin ser aplastadas.')">
+                <a-box width="4.6" height="0.5" depth="4.6" color="#7f1d1d" roughness="0.5"></a-box>
+                <a-text value="2. Cerros Chocantes" position="-2.3 0.4 2.5" rotation="0 0 0" color="#fca5a5" scale="0.9 0.9 0.9"></a-text>
+            </a-entity>
 
             <!-- Nivel 3: Itztlan -->
-            <a-box class="clickable" position="0 1.9 0" width="3.5" height="0.6" depth="3.5" color="#334155" roughness="0.3"
-                   onclick="updateInfo('Nivel 3: Itztlan (Lugar de la Obsidiana)', 'Un camino empinado cubierto de pedernales afilados y cuchillos de obsidiana. Las almas sufrían cortes profundos impulsadas por el viento helado.')">
-                <a-text value="3. Obsidiana" position="-0.9 0.4 -1.6" color="white" scale="0.8 0.8 0.8"></a-text>
-            </a-box>
+            <a-entity position="0 1.6 0" 
+                      onclick="updateInfo('Nivel 3: Itztlan (Lugar de la Obsidiana)', 'Un camino empinado y solitario cubierto de pedernales afilados y cuchillos de obsidiana. Las almas sufrían profundos cortes impulsadas por un viento helado.')">
+                <a-box width="4.0" height="0.5" depth="4.0" color="#334155" roughness="0.2"></a-box>
+                <a-text value="3. Obsidiana" position="-2.0 0.4 2.2" rotation="0 0 0" color="#cbd5e1" scale="0.9 0.9 0.9"></a-text>
+            </a-entity>
 
             <!-- Nivel 4: Itzeccayan -->
-            <a-box class="clickable" position="0 2.6 0" width="3" height="0.6" depth="3" color="#0284c7" roughness="0.2"
-                   onclick="updateInfo('Nivel 4: Itzeccayan (Lugar del Viento de Obsidiana)', 'Una zona de tundra y frío extremo donde soplaba un viento helado capaz de arrancar extremidades y empujar flechas y rocas afiladas.')">
-                <a-text value="4. Viento Helado" position="-1 0.4 -1.4" color="white" scale="0.8 0.8 0.8"></a-text>
-            </a-box>
+            <a-entity position="0 2.2 0" 
+                      onclick="updateInfo('Nivel 4: Itzeccayan (Lugar del Viento de Obsidiana)', 'Una zona de tundra y frío extremo donde soplaba un viento tan violento que arrancaba extremidades y arrastraba rocas y flechas afiladas como navajas.')">
+                <a-box width="3.4" height="0.5" depth="3.4" color="#0284c7" roughness="0.3"></a-box>
+                <a-text value="4. Viento Helado" position="-1.7 0.4 1.9" rotation="0 0 0" color="#bae6fd" scale="0.9 0.9 0.9"></a-text>
+            </a-entity>
 
             <!-- Nivel 5: Panetecoyan -->
-            <a-box class="clickable" position="0 3.3 0" width="2.5" height="0.6" depth="2.5" color="#713f12" roughness="0.7"
-                   onclick="updateInfo('Nivel 5: Panetecoyan (Lugar donde las banderas flotan)', 'Un sitio desolado donde las almas perdían la gravedad y flotaban a merced del viento como banderas en una tormenta.')">
-                <a-text value="5. Banderas" position="-0.8 0.4 -1.2" color="white" scale="0.8 0.8 0.8"></a-text>
-            </a-box>
+            <a-entity position="0 2.8 0" 
+                      onclick="updateInfo('Nivel 5: Panetecoyan (Lugar donde las banderas flotan)', 'Un sitio desolado donde la gravedad desaparecía parcialmente y las almas flotaban a merced del viento, sacudidas como banderas en una tormenta eterna.')">
+                <a-box width="2.8" height="0.5" depth="2.8" color="#78350f" roughness="0.6"></a-box>
+                <a-text value="5. Banderas" position="-1.4 0.4 1.6" rotation="0 0 0" color="#fde68a" scale="0.9 0.9 0.9"></a-text>
+            </a-entity>
 
             <!-- Nivel 6: Timiminaloyan -->
-            <a-box class="clickable" position="0 4.0 0" width="2" height="0.6" depth="2" color="#b45309" roughness="0.5"
-                   onclick="updateInfo('Nivel 6: Timiminaloyan (Lugar donde flechan almas)', 'Un sendero invisible donde manos ocultas disparaban flechas perdidas que atravesaban los cuerpos de los difuntos.')">
-                <a-text value="6. Flechas" position="-0.7 0.4 -1" color="white" scale="0.8 0.8 0.8"></a-text>
-            </a-box>
+            <a-entity position="0 3.4 0" 
+                      onclick="updateInfo('Nivel 6: Timiminaloyan (Lugar donde flechan almas)', 'Un sendero invisible en penumbra donde manos ocultas disparaban flechas perdidas que atravesaban sin piedad los cuerpos de los difuntos.')">
+                <a-box width="2.2" height="0.5" depth="2.2" color="#b45309" roughness="0.5"></a-box>
+                <a-text value="6. Flechas" position="-1.1 0.4 1.3" rotation="0 0 0" color="#fed7aa" scale="0.9 0.9 0.9"></a-text>
+            </a-entity>
 
             <!-- Nivel 7: Teocoyohualoyan -->
-            <a-box class="clickable" position="0 4.7 0" width="1.5" height="0.6" depth="1.5" color="#14532d" roughness="0.6"
-                   onclick="updateInfo('Nivel 7: Teocoyohualoyan (Lugar donde devoran corazones)', 'Habitual morada de jaguares salvajes que abrían el pecho de los caminantes para devorar sus corazones.')">
-                <a-text value="7. Jaguares" position="-0.6 0.4 -0.8" color="white" scale="0.8 0.8 0.8"></a-text>
-            </a-box>
+            <a-entity position="0 4.0 0" 
+                      onclick="updateInfo('Nivel 7: Teocoyohualoyan (Lugar donde devoran corazones)', 'La morada de fieros jaguares salvajes que acechaban en la oscuridad para saltar sobre los caminantes y arrancarles el corazón.')">
+                <a-box width="1.6" height="0.5" depth="1.6" color="#14532d" roughness="0.5"></a-box>
+                <a-text value="7. Jaguares" position="-0.8 0.4 1.0" rotation="0 0 0" color="#bbf7d0" scale="0.9 0.9 0.9"></a-text>
+            </a-entity>
 
             <!-- Nivel 8: Izmictlan Acaltepetla -->
-            <a-box class="clickable" position="0 5.4 0" width="1" height="0.6" depth="1" color="#581c87" roughness="0.4"
-                   onclick="updateInfo('Nivel 8: Izmictlan Acaltepetla (Aguasnegras)', 'Un lago de aguas turbulentas y oscuras donde habitaba la serpiente Xochitonal y el monstruo de las aguas profundas.')">
-                <a-text value="8. Aguas Negras" position="-0.6 0.4 -0.6" color="white" scale="0.8 0.8 0.8"></a-text>
-            </a-box>
+            <a-entity position="0 4.6 0" 
+                      onclick="updateInfo('Nivel 8: Izmictlan Acaltepetla (Aguas Negras)', 'Un lago de aguas turbulentas, frías y oscuras donde habitaba la temible serpiente Xochitonal y el monstruo acuático que custodiaba el paso final.')">
+                <a-box width="1.0" height="0.5" depth="1.0" color="#581c87" roughness="0.4"></a-box>
+                <a-text value="8. Aguas Negras" position="-0.5 0.4 0.7" rotation="0 0 0" color="#e9d5ff" scale="0.9 0.9 0.9"></a-text>
+            </a-entity>
 
-            <!-- Nivel 9: Chicunamictlan -->
-            <a-cylinder class="clickable" position="0 6.1" radius="0.6" height="0.8" color="#f59e0b" roughness="0.1"
-                        onclick="updateInfo('Nivel 9: Chicunamictlan (El Descanso Eterno)', 'El fin del viaje. Aquí las almas se encontraban con los señores del inframundo, Mictlantecuhtli y Mictecacíhuatl, obteniendo el descanso absoluto tras disolverse en el cosmos.')">
-                <a-text value="9. Descanso" position="-0.5 0.5 -0.4" color="black" scale="0.7 0.7 0.7"></a-text>
-            </a-cylinder>
+            <!-- Nivel 9: Chicunamictlan (Cima / Templo Dorado) -->
+            <a-entity position="0 5.4 0" 
+                      onclick="updateInfo('Nivel 9: Chicunamictlan (El Descanso Eterno)', 'El fin del viaje. Aquí las almas se encontraban con los señores del inframundo, Mictlantecuhtli y Mictecacíhuatl, obteniendo el descanso absoluto y disolviéndose en el cosmos.')">
+                <a-cylinder radius="0.5" height="1.0" color="#f59e0b" roughness="0.1"></a-cylinder>
+                <a-text value="9. Descanso" position="-0.5 0.6 0.6" rotation="0 0 0" color="#ffffff" scale="0.9 0.9 0.9"></a-text>
+            </a-entity>
 
         </a-entity>
 
     </a-scene>
 
-    <!-- Script JavaScript para interactuar con los niveles desde la laptop -->
+    <!-- Script de Interacción -->
     <script>
         function updateInfo(title, description) {
             const panel = document.getElementById('level-description');
             panel.innerHTML = `<h2>${title}</h2><p>${description}</p>`;
+            // Efecto visual sutil en consola para depuración
+            console.log("Nivel seleccionado: " + title);
         }
     </script>
 
 </body>
-</html>
+    </html>
+                                                                                                                                    
