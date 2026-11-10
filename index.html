@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mapa 3D de los 9 Niveles del Mictlán - Gráfica Computacional</title>
-    <!-- Incluir A-Frame -->
+    <title>Mapa 3D del Mictlán en RA - Gráfica Computacional</title>
+    <!-- A-Frame y AR.js -->
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
     <style>
         :root {
-            --bg-color: #030305;
             --panel-bg: rgba(15, 23, 42, 0.95);
             --accent: #d97706;
             --text-main: #f8fafc;
@@ -18,8 +18,6 @@
             margin: 0;
             padding: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
             overflow: hidden;
         }
         /* Panel de Información Lateral */
@@ -27,136 +25,118 @@
             position: absolute;
             top: 20px;
             left: 20px;
-            width: 360px;
+            width: 350px;
             max-height: 90vh;
             background: var(--panel-bg);
             border: 2px solid var(--accent);
             border-radius: 12px;
-            padding: 25px;
+            padding: 20px;
             box-sizing: border-box;
             box-shadow: 0 10px 30px rgba(0,0,0,0.9);
-            z-index: 10;
-            overflow-y: auto;
+            z-index: 999;
+            color: var(--text-main);
             backdrop-filter: blur(8px);
         }
-        h1 { font-size: 1.3em; color: var(--accent); margin-top: 0; border-bottom: 2px solid #334155; padding-bottom: 10px; }
-        h2 { font-size: 1.1em; color: #fbbf24; margin-bottom: 8px; }
-        p { font-size: 0.92em; color: var(--text-sub); line-height: 1.6; }
-        .instructions {
-            margin-top: 20px;
-            padding-top: 12px;
-            border-top: 1px dashed #475569;
-            font-size: 0.85em;
-            color: #cbd5e1;
-        }
+        h1 { font-size: 1.2em; color: var(--accent); margin-top: 0; border-bottom: 2px solid #334155; padding-bottom: 8px; }
+        h2 { font-size: 1em; color: #fbbf24; margin-bottom: 6px; }
+        p { font-size: 0.88em; color: var(--text-sub); line-height: 1.5; }
         .badge {
             display: inline-block;
             background: #78350f;
             color: #fde68a;
-            padding: 4px 10px;
+            padding: 3px 8px;
             border-radius: 4px;
-            font-size: 0.75em;
+            font-size: 0.7em;
             font-weight: bold;
-            margin-bottom: 10px;
-        }
-        .hint {
-            color: #f59e0b;
-            font-weight: bold;
+            margin-bottom: 8px;
         }
     </style>
 </head>
-<body>
+<body style="margin: 0; overflow: hidden;">
 
-    <!-- Panel Informativo Interactivo -->
+    <!-- Panel Informativo Lateral -->
     <div class="info-panel">
-        <span class="badge">GRÁFICA COMPUTACIONAL • 2° PARCIAL</span>
+        <span class="badge">GRÁFICA COMPUTACIONAL • RA</span>
         <h1>El Mictlán (Inframundo)</h1>
-        <p>Mapa 3D interactivo de los mitos mexicas. <span class="hint">Haz clic directamente sobre cualquier nivel de la pirámide para ver su descripción.</span></p>
-        
         <div id="level-description">
-            <h2>📜 Selecciona un Nivel</h2>
-            <p>Haz clic en cualquiera de las plataformas de la estructura tridimensional para conocer la prueba que enfrentaban las almas.</p>
-        </div>
-
-        <div class="instructions">
-            <strong>🎮 Controles en Laptop:</strong><br>
-            • 🖱️ <strong>Click + Arrastrar:</strong> Rotar la vista del templo<br>
-            • 📜 <strong>Rueda del mouse:</strong> Zoom (acercar / alejar)<br>
-            • 🖱️ <strong>Click izquierdo:</strong> Seleccionar nivel
+            <h2>📜 Instrucciones</h2>
+            <p>Apunta la cámara de tu laptop o dispositivo hacia el <strong>Marcador Hiro</strong>. La pirámide 3D aparecerá sobre él. Haz clic o toca los niveles para ver su mitología.</p>
         </div>
     </div>
 
-    <!-- Escena 3D -->
-    <a-scene background="color: #030305">
+    <!-- Escena de Realidad Aumentada con AR.js -->
+    <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;" vr-mode-ui="enabled: false">
 
-        <!-- Cámara con Cursor de Raycaster para detectar clics perfectamente -->
-        <a-entity position="0 3 10">
-            <a-camera look-controls="pointerLockEnabled: false" wasd-controls="acceleration: 15">
-                <a-cursor raycaster="objects: .clickable" fuse="false" material="color: #f59e0b; shader: flat"></a-cursor>
-            </a-camera>
+        <!-- Cámara con cursor interactivo para clics -->
+        <a-entity camera>
+            <a-cursor raycaster="objects: .clickable" fuse="false" material="color: #f59e0b; shader: flat"></a-cursor>
         </a-entity>
 
         <!-- Iluminación -->
-        <a-light type="ambient" color="#1e1b4b" intensity="0.8"></a-light>
-        <a-light type="directional" position="5 8 5" intensity="1.5" color="#fbbf24"></a-light>
-        <a-light type="point" position="0 1 0" intensity="1.2" color="#d97706"></a-light>
+        <a-light type="ambient" color="#ffffff" intensity="0.9"></a-light>
+        <a-light type="directional" position="2 4 2" intensity="1.2" color="#fbbf24"></a-light>
 
-        <!-- Estructura Estática (Sin rotación automática para poder hacer clic con facilidad) -->
-        <a-entity id="mictlan-structure" position="0 -1.5 0">
+        <!-- Marcador Hiro (Aquí se ancla todo el modelo 3D) -->
+        <a-marker preset="hiro">
 
-            <!-- Base Monumental -->
-            <a-cylinder position="0 -0.2 0" radius="4" height="0.4" color="#0f172a" roughness="0.9"></a-cylinder>
+            <!-- Estructura Estática de la Pirámide del Mictlán -->
+            <a-entity position="0 0 0" scale="0.6 0.6 0.6">
 
-            <!-- Nivel 1: Apanoayan -->
-            <a-box class="clickable" position="0 0.4 0" width="5.2" height="0.5" depth="5.2" color="#1e3a8a" roughness="0.4"
-                   onclick="updateInfo('Nivel 1: Apanoayan (Lugar de los Perros)', 'El río Apanohuayan era el primer obstáculo. Las almas debían cruzarlo con ayuda de un perro xoloitzcuintle. Si en vida habías maltratado a los animales, el perro se negaba a ayudarte.')">
-            </a-box>
+                <!-- Base -->
+                <a-cylinder position="0 -0.2 0" radius="3" height="0.3" color="#0f172a"></a-cylinder>
 
-            <!-- Nivel 2: Tepeme Monamictia -->
-            <a-box class="clickable" position="0 1.0 0" width="4.6" height="0.5" depth="4.6" color="#7f1d1d" roughness="0.5"
-                   onclick="updateInfo('Nivel 2: Tepeme Monamictia (Los Cerros que Chocan)', 'Dos sierras gigantescas que chocaban entre sí constantemente. Las almas debían esperar el preciso instante en que se separaban para cruzar corriendo.')">
-            </a-box>
+                <!-- Nivel 1: Apanoayan -->
+                <a-box class="clickable" position="0 0.2 0" width="4.5" height="0.4" depth="4.5" color="#1e3a8a"
+                       onclick="updateInfo('Nivel 1: Apanoayan (Lugar de los Perros)', 'El río Apanohuayan. Las almas cruzaban con ayuda de un perro xoloitzcuintle que te reconocía si en vida fuiste bueno con ellos.')">
+                </a-box>
 
-            <!-- Nivel 3: Itztlan -->
-            <a-box class="clickable" position="0 1.6 0" width="4.0" height="0.5" depth="4.0" color="#334155" roughness="0.2"
-                   onclick="updateInfo('Nivel 3: Itztlan (Lugar de la Obsidiana)', 'Un camino empinado cubierto de pedernales afilados y cuchillos de obsidiana. Las almas sufrían profundos cortes impulsadas por un viento helado.')">
-            </a-box>
+                <!-- Nivel 2: Tepeme Monamictia -->
+                <a-box class="clickable" position="0 0.7 0" width="3.9" height="0.4" depth="3.9" color="#7f1d1d"
+                       onclick="updateInfo('Nivel 2: Tepeme Monamictia (Cerros que Chocan)', 'Dos sierras gigantescas que chocaban entre sí constantemente. Las almas debían cruzarlas en el momento exacto.')">
+                </a-box>
 
-            <!-- Nivel 4: Itzeccayan -->
-            <a-box class="clickable" position="0 2.2 0" width="3.4" height="0.5" depth="3.4" color="#0284c7" roughness="0.3"
-                   onclick="updateInfo('Nivel 4: Itzeccayan (Lugar del Viento de Obsidiana)', 'Zona de frío extremo donde soplaba un viento tan violento que arrancaba extremidades y arrastraba rocas y flechas afiladas.')">
-            </a-box>
+                <!-- Nivel 3: Itztlan -->
+                <a-box class="clickable" position="0 1.2 0" width="3.3" height="0.4" depth="3.3" color="#334155"
+                       onclick="updateInfo('Nivel 3: Itztlan (Lugar de la Obsidiana)', 'Camino empinado de pedernales afilados y cuchillos de obsidiana donde el viento cortaba como navajas.')">
+                </a-box>
 
-            <!-- Nivel 5: Panetecoyan -->
-            <a-box class="clickable" position="0 2.8 0" width="2.8" height="0.5" depth="2.8" color="#78350f" roughness="0.6"
-                   onclick="updateInfo('Nivel 5: Panetecoyan (Lugar donde las banderas flotan)', 'Sitio desolado donde la gravedad fallaba y las almas flotaban a merced del viento como banderas en una tormenta.')">
-            </a-box>
+                <!-- Nivel 4: Itzeccayan -->
+                <a-box class="clickable" position="0 1.7 0" width="2.7" height="0.4" depth="2.7" color="#0284c7"
+                       onclick="updateInfo('Nivel 4: Itzeccayan (Viento de Obsidiana)', 'Zona de frío extremo con un viento helado capaz de arrancar extremidades y rocas afiladas.')">
+                </a-box>
 
-            <!-- Nivel 6: Timiminaloyan -->
-            <a-box class="clickable" position="0 3.4 0" width="2.2" height="0.5" depth="2.2" color="#b45309" roughness="0.5"
-                   onclick="updateInfo('Nivel 6: Timiminaloyan (Lugar donde flechan almas)', 'Sendero invisible en penumbra donde manos ocultas disparaban flechas perdidas que atravesaban sin piedad a los difuntos.')">
-            </a-box>
+                <!-- Nivel 5: Panetecoyan -->
+                <a-box class="clickable" position="0 2.2 0" width="2.1" height="0.4" depth="2.1" color="#78350f"
+                       onclick="updateInfo('Nivel 5: Panetecoyan (Lugar donde las banderas flotan)', 'Sitio desolado donde la gravedad fallaba y las almas flotaban a merced del viento como banderas.')">
+                </a-box>
 
-            <!-- Nivel 7: Teocoyohualoyan -->
-            <a-box class="clickable" position="0 4.0 0" width="1.6" height="0.5" depth="1.6" color="#14532d" roughness="0.5"
-                   onclick="updateInfo('Nivel 7: Teocoyohualoyan (Lugar donde devoran corazones)', 'Morada de fieros jaguares salvajes que acechaban en la oscuridad para saltar sobre los caminantes y arrancarles el corazón.')">
-            </a-box>
+                <!-- Nivel 6: Timiminaloyan -->
+                <a-box class="clickable" position="0 2.7 0" width="1.6" height="0.4" depth="1.6" color="#b45309"
+                       onclick="updateInfo('Nivel 6: Timiminaloyan (Lugar donde flechan almas)', 'Sendero invisible donde manos ocultas disparaban flechas perdidas que atravesaban a los difuntos.')">
+                </a-box>
 
-            <!-- Nivel 8: Izmictlan Acaltepetla -->
-            <a-box class="clickable" position="0 4.6 0" width="1.0" height="0.5" depth="1.0" color="#581c87" roughness="0.4"
-                   onclick="updateInfo('Nivel 8: Izmictlan Acaltepetla (Aguas Negras)', 'Lago de aguas turbulentas y oscuras donde habitaba la temible serpiente Xochitonal y monstruos de las profundidades.')">
-            </a-box>
+                <!-- Nivel 7: Teocoyohualoyan -->
+                <a-box class="clickable" position="0 3.2 0" width="1.1" height="0.4" depth="1.1" color="#14532d"
+                       onclick="updateInfo('Nivel 7: Teocoyohualoyan (Devoran corazones)', 'Morada de jaguares salvajes que acechaban para saltar y arrancar el corazón de los caminantes.')">
+                </a-box>
 
-            <!-- Nivel 9: Chicunamictlan (Cima) -->
-            <a-cylinder class="clickable" position="0 5.4 0" radius="0.5" height="1.0" color="#f59e0b" roughness="0.1"
-                        onclick="updateInfo('Nivel 9: Chicunamictlan (El Descanso Eterno)', 'Fin del viaje. Las almas encontraban a Mictlantecuhtli y Mictecacíhuatl, obteniendo el descanso absoluto y disolviéndose en el cosmos.')">
-            </a-cylinder>
+                <!-- Nivel 8: Izmictlan Acaltepetla -->
+                <a-box class="clickable" position="0 3.7 0" width="0.7" height="0.4" depth="0.7" color="#581c87"
+                       onclick="updateInfo('Nivel 8: Izmictlan Acaltepetla (Aguas Negras)', 'Lago de aguas oscuras donde habitaba la serpiente Xochitonal y monstruos de las profundidades.')">
+                </a-box>
 
-        </a-entity>
+                <!-- Nivel 9: Chicunamictlan -->
+                <a-cylinder class="clickable" position="0 4.3 0" radius="0.4" height="0.8" color="#f59e0b"
+                            onclick="updateInfo('Nivel 9: Chicunamictlan (Descanso Eterno)', 'Fin del viaje. Las almas encontraban a Mictlantecuhtli y obtenían el descanso absoluto en el cosmos.')">
+                </a-cylinder>
+
+            </a-entity>
+
+        </a-marker>
 
     </a-scene>
 
-    <!-- Script de Interacción -->
+    <!-- Script para actualizar la descripción en pantalla -->
     <script>
         function updateInfo(title, description) {
             const panel = document.getElementById('level-description');
@@ -165,5 +145,4 @@
     </script>
 
 </body>
-            </html>
-            
+</html>
